@@ -68,9 +68,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseMethods.cs" />
+    <Compile Include="RtaAlertStatusDetails.cs" />
+    <Compile Include="RtaEventDetails.cs" />
+    <Compile Include="RtaEventResponse.cs" />
+    <Compile Include="RtaPublicEventDetails.cs" />
     <Compile Include="ScannerBarcode.cs" />
     <Compile Include="DiscoverScanner.cs" />
     <Compile Include="ScannerAction.cs" />
@@ -86,6 +91,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ViewLogs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewRTA.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ViewScale.cs">
