@@ -33,31 +33,31 @@ BOOL CRsmListCtrl::OnClickListView(NMHDR *pNMHDR, LRESULT *pResult)
 	CString sEditVal;
 	LPNMLISTVIEW p = (LPNMLISTVIEW)pNMHDR;
 
-	if(p->iItem == -1) goto End; //Clicked on a header ctrl
-	if(m_EditInfo.m_pEdit != 0)
+	if(p->iItem != -1) // Only if a list item
 	{
-		m_EditInfo.m_pEdit->GetWindowText(sEditVal);
-		SetItemText(m_EditInfo.m_Item, m_EditInfo.m_SubItem, sEditVal);
-		StopEdit();
-	}
-
-	if(p->iSubItem == 3)
-	{
-		GetSubItemRect(p->iItem, p->iSubItem, LVIR_BOUNDS, rec);
-		if(m_EditInfo.m_pEdit == 0)
+		if (m_EditInfo.m_pEdit != 0)
 		{
-			m_EditInfo.m_pEdit = new CEditText();
-			m_EditInfo.m_pEdit->Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_CENTER, rec, this, 999);
-			m_EditInfo.m_pEdit->SetWindowText(GetItemText(p->iItem, p->iSubItem));
-			m_EditInfo.m_pEdit->SetSel(0, -1);
-			m_EditInfo.m_pEdit->SetFocus();
+			m_EditInfo.m_pEdit->GetWindowText(sEditVal);
+			SetItemText(m_EditInfo.m_Item, m_EditInfo.m_SubItem, sEditVal);
+			StopEdit();
 		}
 
-		m_EditInfo.m_Item = p->iItem;
-		m_EditInfo.m_SubItem = p->iSubItem;
-	}
+		if (p->iSubItem == 3)
+		{
+			GetSubItemRect(p->iItem, p->iSubItem, LVIR_BOUNDS, rec);
+			if (m_EditInfo.m_pEdit == 0)
+			{
+				m_EditInfo.m_pEdit = new CEditText();
+				m_EditInfo.m_pEdit->Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_CENTER, rec, this, 999);
+				m_EditInfo.m_pEdit->SetWindowText(GetItemText(p->iItem, p->iSubItem));
+				m_EditInfo.m_pEdit->SetSel(0, -1);
+				m_EditInfo.m_pEdit->SetFocus();
+			}
 
-End:
+			m_EditInfo.m_Item = p->iItem;
+			m_EditInfo.m_SubItem = p->iSubItem;
+		}
+	}
 	*pResult = 0;
 	return FALSE;
 }

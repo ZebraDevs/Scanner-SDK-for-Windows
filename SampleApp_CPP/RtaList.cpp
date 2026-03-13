@@ -301,17 +301,17 @@ void CRtaListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 
     case CDDS_ITEMPREPAINT | CDDS_SUBITEM:
         // Check if the current subitem is in a checkbox column
-        if (IsCheckboxColumn(pLVCD->nmcd.dwItemSpec, pLVCD->iSubItem))
+        if (IsCheckboxColumn(static_cast<int>(pLVCD->nmcd.dwItemSpec), pLVCD->iSubItem))
         {
             // Get a device context (DC) from the custom draw structure
             CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
             CRect rect;
 
             // Get the rectangle area of the subitem
-            GetSubItemRect(pLVCD->nmcd.dwItemSpec, pLVCD->iSubItem, LVIR_LABEL, rect);
+            GetSubItemRect(static_cast<int>(pLVCD->nmcd.dwItemSpec), pLVCD->iSubItem, LVIR_LABEL, rect);
 
             // Draw the checkbox in the subitem's rectangle
-            DrawCheckbox(pDC, this, pLVCD->nmcd.dwItemSpec, pLVCD->iSubItem, rect);
+            DrawCheckbox(pDC, this, static_cast<int>(pLVCD->nmcd.dwItemSpec), pLVCD->iSubItem, rect);
 
             // Skip the default drawing for this subitem (since we've custom drawn it)
             *pResult = CDRF_SKIPDEFAULT;

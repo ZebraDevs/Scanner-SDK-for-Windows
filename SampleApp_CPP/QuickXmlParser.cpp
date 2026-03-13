@@ -32,27 +32,26 @@ BSTR CQuickXmlParser::LoadXmlFile(LPTSTR XmlFilePath )
 	char* Buffer = 0;
 
 	hConfigXml = CreateFile(XmlFilePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	if(hConfigXml == INVALID_HANDLE_VALUE ) goto end;
+	if(hConfigXml != INVALID_HANDLE_VALUE)
+	{
+		dwReadBufferSize = GetFileSize(hConfigXml, NULL);
+		if (dwReadBufferSize != INVALID_FILE_SIZE)
+		{
+			Buffer = new char[dwReadBufferSize + 8];
 
-	dwReadBufferSize = GetFileSize(hConfigXml, NULL);
-	if(dwReadBufferSize == INVALID_FILE_SIZE) goto end;
-
-	Buffer = new char[dwReadBufferSize + 8];
-
-	ret = ReadFile(hConfigXml, Buffer, dwReadBufferSize + 8, &dwRead, NULL);
-	if((ret && dwRead) == 0) goto end;
-	
-
-	LPWSTR pszDest = new WCHAR[dwRead];
-	::MultiByteToWideChar( CP_THREAD_ACP, 0, Buffer, dwRead, pszDest, dwRead );
-	bs = SysAllocStringLen(pszDest, dwRead);
-	delete [] Buffer;
-	delete [] pszDest;
-
-end:
+			ret = ReadFile(hConfigXml, Buffer, dwReadBufferSize + 8, &dwRead, NULL);
+			if (ret && (dwRead > 0))
+			{
+				LPWSTR pszDest = new WCHAR[dwRead];
+				::MultiByteToWideChar(CP_THREAD_ACP, 0, Buffer, dwRead, pszDest, dwRead);
+				bs = SysAllocStringLen(pszDest, dwRead);
+				delete[] pszDest;
+			}
+			delete[] Buffer;
+		}
+	}
 	CloseHandle(hConfigXml);
 	return bs;
-
 }
 
 void CQuickXmlParser::Clear()

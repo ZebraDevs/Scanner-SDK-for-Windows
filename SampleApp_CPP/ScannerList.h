@@ -59,7 +59,7 @@ public:
 		if(SelIndicesArray)
 		{
 			delete [] SelIndicesArray;
-			SelIndicesArray = 0;
+			SelIndicesArray = NULL;
 		}
 
 		UINT u = GetSelectedCount();
@@ -73,7 +73,7 @@ public:
 				nItem = GetNextItem(nItem, LVNI_SELECTED);
 				SelIndicesArray[i] = nItem;
 			}
-			SelIndicesArray[i] = -1;
+			SelIndicesArray[u] = -1; // using u instead of i fixes a warning
 		}
 		return SelIndicesArray;
 
@@ -81,7 +81,7 @@ public:
 
 	static int CALLBACK SortComp(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	{
-		return (int)(lParam2 - lParam1);
+		return static_cast<int>(lParam2 - lParam1);
 	}
 
 	void Sort()

@@ -52,7 +52,7 @@ private:
 	//CEdit txtRawData;
 	//CEmbeddedBrowser m_EmbeddedBrowser;
 	CBrush  m_brush;
-	bool m_bDisableEvents;
+	bool m_bDisableEvents = true;
 	
 
 	CButton m_chkEnableLocaleSelection;

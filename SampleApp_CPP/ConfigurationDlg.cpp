@@ -309,7 +309,7 @@ void CConfigurationDlg::UpdateClaimedStatus(int scnID)
 void CConfigurationDlg::OnChangeProtocol()
 {
 	int index = m_cmbProtocol.GetCurSel();
-	int NewProtocol = (int) m_cmbProtocol.GetItemData(index);
+	int NewProtocol = static_cast<int>(m_cmbProtocol.GetItemData(index));
 	int &CurrentProtocol = QueryScannerProtocol();
 	if(NewProtocol != CurrentProtocol)
 	{

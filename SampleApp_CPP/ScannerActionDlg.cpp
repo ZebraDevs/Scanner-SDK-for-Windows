@@ -177,7 +177,7 @@ void CScannerActionDlg::OnLEDOn()
     CHECK_CMD0;
 
     SCANNER* p = GetMainDlg()->GetScannerInfo(SelectedScannerID);
-    int inSel = (int) CmbLED.GetItemData(CmbLED.GetCurSel());
+    int inSel = static_cast<int>(CmbLED.GetItemData(CmbLED.GetCurSel()));
     long status = 1;
     SC->cmdLED(SelectedScannerID, ScannerLEDTypes[inSel], Async, &status,p);
     LOG(status, "LED_ON");
@@ -188,7 +188,7 @@ void CScannerActionDlg::OnLEDOff()
     CHECK_CMD0;
 
     SCANNER* p = GetMainDlg()->GetScannerInfo(SelectedScannerID);
-    int inSel = (int) CmbLED.GetItemData(CmbLED.GetCurSel());
+    int inSel = static_cast<int>(CmbLED.GetItemData(CmbLED.GetCurSel()));
     long status = 1;
     SC->cmdLEDOff(SelectedScannerID, ScannerLEDTypes[inSel + 1], Async, &status,p);
     LOG(status, "LED_OFF");
@@ -198,11 +198,11 @@ void CScannerActionDlg::OnBeep()
 {
     CHECK_CMD0;
 
-    int val = (int) m_cmbBeeps.GetItemData(m_cmbBeeps.GetCurSel());
+    int val = static_cast<int>(m_cmbBeeps.GetItemData(m_cmbBeeps.GetCurSel()));
     long status=1;
 
-    wchar_t buf[8];
-    _itow_s(val, buf, 8, 10);
+    wchar_t buf[_MAX_ITOSTR_BASE10_COUNT];
+    _itow_s(val, buf, 10);
     wstring str = buf;
     SC->cmdBeep(SelectedScannerID, str, Async, &status);
     LOG(status, "SOUND_BEEPER");

@@ -54,6 +54,7 @@ CScanToConnectDlg::CScanToConnectDlg(CWnd* pParent /*=NULL*/)
 
 CScanToConnectDlg::~CScanToConnectDlg()
 {
+	ClearImageCache();
 }
 
 void CScanToConnectDlg::DoDataExchange(CDataExchange* pDX)
@@ -177,7 +178,7 @@ void CScanToConnectDlg::RequestPairingBarcode()
 	}
 
 
-	SC->cmdGetBluetoothPairingBarcode(SelectedScannerID, Async, &status, protocol,(int) m_cmbDefaultOption.GetItemData(m_cmbDefaultOption.GetCurSel()),(int) m_cmbImageSize.GetItemData(m_cmbImageSize.GetCurSel()), L"");
+	SC->cmdGetBluetoothPairingBarcode(SelectedScannerID, Async, &status, protocol, static_cast<int>(m_cmbDefaultOption.GetItemData(m_cmbDefaultOption.GetCurSel())), static_cast<int>(m_cmbImageSize.GetItemData(m_cmbImageSize.GetCurSel())), L"");
 	LOG(status, "GET_PAIRING_BARCODE");
 }
 

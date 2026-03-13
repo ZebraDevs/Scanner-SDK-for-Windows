@@ -409,7 +409,7 @@ void CBarcodeDlg::OnCbnSelchangeCmblang()
     
     CHECK_CMD0;
     
-    int inSel = (int) m_cmbSelectLocale.GetItemData(m_cmbSelectLocale.GetCurSel());
+    int inSel = static_cast<int>(m_cmbSelectLocale.GetItemData(m_cmbSelectLocale.GetCurSel()));
     long status = 1;
     
     SC->cmdSetKeyboardEmulatorLocale(inSel, Async, &status);

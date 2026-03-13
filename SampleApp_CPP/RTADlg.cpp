@@ -223,7 +223,9 @@ void CRTADlg::UpdateRtaEvent(BSTR rtaData)
 		//OnGetRTAEventStatus(); //Update the RTAEventsGrid
 	}
 	catch (exception ex) {
-		LOG(-1, "Update RTA Event Error: {}",ex);
+		CString errorMsg;
+		errorMsg.Format(L"Update RTA Event Error: {%S}", ex.what());
+		LOGV(-1, errorMsg.GetBuffer());
 	}
 
 }
@@ -254,7 +256,9 @@ void CRTADlg::OnCheckedSuspendReportingAlerts()
 		GetTabManager().GetTabDlg<CLogsDlg>().DisplayResult(0, logStr);
 	}
 	catch (exception ex) {
-		LOG(-1, "RTA_SUSPEND_STATE_UPDATE_ERROR: {}", ex);
+		CString errorMsg;
+		errorMsg.Format(L"RTA_SUSPEND_STATE_UPDATE_ERROR: {%S}", ex.what());
+		LOGV(-1, errorMsg.GetBuffer());
 		throw ex;
 	}
 }
@@ -683,7 +687,9 @@ void CRTADlg::OnClearEventLog()
 		RtaEventLogGridControl.DeleteAllItems(); //Clearing the RTA Event Log
 	}
 	catch (exception ex) {
-		LOG(-1, "RTA_EVENT_LOG_CLEAR ERROR : {}", ex)
+		CString errorMsg;
+		errorMsg.Format(L"RTA_EVENT_LOG_CLEAR ERROR : {%S}", ex.what());
+		LOGV(-1, errorMsg.GetBuffer());
 	}
 	
 }
@@ -796,7 +802,7 @@ vector<vector<wstring>> CRTADlg::GetRTAEventsStatus() { //Parse the outXML of RT
 	}
 	catch (const exception& ex) {
 		// Handle exceptions
-		throw;
+		throw ex;
 	}
 
 	return eventDetailsList;
@@ -848,6 +854,7 @@ BOOL CRTADlg::GetRTASuspendStatus() //Parse the outXML of RTA State
 		LOG(status, "GET_RTA_SUSPEND_ERROR");
 		throw ex;
 	}
+	return FALSE;
 }
 
 void CRTADlg::UpdateRTAGrid(vector<vector<wstring>> eventDetailsList)
@@ -868,7 +875,7 @@ void CRTADlg::UpdateRTAGrid(vector<vector<wstring>> eventDetailsList)
 
 			// Set the subitem texts for the subsequent columns
 			for (size_t colIndex = 0; colIndex < event.size(); ++colIndex) {
-				RtaEventsGrid.SetItemText(nIndex, colIndex + 1, event[colIndex].c_str());
+				RtaEventsGrid.SetItemText(nIndex, static_cast<int>(colIndex + 1), event[colIndex].c_str());
 			}
 		}
 	}

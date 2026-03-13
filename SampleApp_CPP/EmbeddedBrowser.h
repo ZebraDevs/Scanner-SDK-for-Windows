@@ -352,6 +352,7 @@ public:
 	VARIANT GetProperty(LPCTSTR Property)
 	{
 		VARIANT result;
+		VariantInit(&result);	// explicitly initialize to empty variant
 		static BYTE parms[] = VTS_BSTR ;
 		InvokeHelper(0x12f, DISPATCH_METHOD, VT_VARIANT, (void*)&result, parms, Property);
 		return result;

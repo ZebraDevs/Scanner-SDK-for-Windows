@@ -242,38 +242,36 @@ SCANNER* CScannerSDKSampleAppDlg::GetScannerInfo(std::wstring ScannerID)
 
 void CScannerSDKSampleAppDlg::UpdateScannerStatus()
 {
-#pragma warning(disable:4311; disable:4312)
 
-	int ScannerCount = (int)m_ScannerMap.GetCount();
+	int ScannerCount = static_cast<int>(m_ScannerMap.GetCount());
 	txtScannerSummary.Format(_T("Scanner Count=%d"), ScannerCount);
-	CMapStringToOb ScannerMap;
+	// Change to a type-safe map
+	CMap<CString, LPCTSTR, int, int> ScannerTypeCountMap;
 
-	CObject *count = 0;
-	int val;
 	int ID;
 	SCANNER sc;
 	POSITION pos = m_ScannerMap.GetStartPosition();
 	while(pos != NULL)
 	{
 		m_ScannerMap.GetNextAssoc(pos, ID, sc);
-		if(ScannerMap.Lookup(sc.Type, count) > 0)
+		int count = 0;	// moved count into while block
+		if(ScannerTypeCountMap.Lookup(sc.Type, count) > 0)
 		{
-			val = (int)count;
-			int new_val = val + 1;
-			ScannerMap.SetAt(sc.Type, (CObject*)new_val);
+			ScannerTypeCountMap[sc.Type] = count + 1;
 		}
 		else
-			ScannerMap.SetAt(sc.Type, (CObject*)(1));
+			ScannerTypeCountMap[sc.Type] = 1;
 	}
 
-	if(ScannerMap.GetCount() > 0)
+	if(ScannerTypeCountMap.GetCount() > 0)
 	{
-		CString Status, Temp;
-		pos = ScannerMap.GetStartPosition();
+		CString Status, Temp, scannerType;
+		int count;
+		pos = ScannerTypeCountMap.GetStartPosition();
 		while(pos != NULL)
 		{
-			ScannerMap.GetNextAssoc( pos, sc.Type, count );
-			Temp.Format(_T("   |   %s=%d"), sc.Type, (int)count);
+			ScannerTypeCountMap.GetNextAssoc( pos, scannerType, count );
+			Temp.Format(_T("   |   %s=%d"), (LPCTSTR) scannerType, count);
 			Status += Temp;
 		}
 		txtScannerSummary += Status;
@@ -285,8 +283,6 @@ void CScannerSDKSampleAppDlg::UpdateScannerStatus()
 		GetTabManager().GetTabDlg<CRTADlg>().EnableWindow(FALSE);
 	}
 	UpdateData(0);
-
-#pragma warning(default:4311; disable:4312)
 }
 
 bool CScannerSDKSampleAppDlg::TranslateProtocolNames(SCANNER& Scanner, CString& TranslatedName, wchar_t *Name)

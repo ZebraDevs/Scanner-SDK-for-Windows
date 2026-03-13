@@ -111,8 +111,8 @@ void CLogsDlg::UpdateResults(CString& result)
     CString ExistingText;
     txtResultLog.GetWindowTextW(ExistingText);
 
-    wchar_t buf[8];
-    _itow_s(++m_Count, buf, 8, 10);
+    wchar_t buf[_MAX_ITOSTR_BASE10_COUNT];
+    _itow_s(++m_Count, buf, 10);
 
     ExistingText.Append(buf);
     ExistingText.Append(L". ");

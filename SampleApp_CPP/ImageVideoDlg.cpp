@@ -101,11 +101,11 @@ void CImageVideoDlg::OnSelectJPG()
 		wstring ID;
 		wstring Value;
 
-		wchar_t buf[8];
+		wchar_t buf[_MAX_ITOSTR_BASE10_COUNT];
 		int a = 10;
-		_itow_s(IMAGE_FILETYPE_PARAMNUM, buf, 8, 10);
+		_itow_s(IMAGE_FILETYPE_PARAMNUM, buf, 10);
 		ID.append(buf);
-		_itow_s(JPEG_FILE_SELECTION, buf, 8, 10);
+		_itow_s(JPEG_FILE_SELECTION, buf, 10);
 		Value.append(buf);
 		SC->cmdSetParametersEx(SelectedScannerID, ID, Value, 0, &status);
 		LOG(status, "SET_PARAMETERS_IMAGE_JPG");
@@ -122,11 +122,11 @@ void CImageVideoDlg::OnSelectTIFF()
 		wstring ID;
 		wstring Value;
 
-		wchar_t buf[8];
+		wchar_t buf[_MAX_ITOSTR_BASE10_COUNT];
 		int a = 10;
-		_itow_s(IMAGE_FILETYPE_PARAMNUM, buf, 8, 10);
+		_itow_s(IMAGE_FILETYPE_PARAMNUM, buf, 10);
 		ID.append(buf);
-		_itow_s(TIFF_FILE_SELECTION, buf, 8, 10);
+		_itow_s(TIFF_FILE_SELECTION, buf, 10);
 		Value.append(buf);
 		SC->cmdSetParametersEx(SelectedScannerID, ID, Value, 0, &status);
 		LOG(status, "SET_PARAMETERS_IMAGE_TIFF");
@@ -143,11 +143,11 @@ void CImageVideoDlg::OnSelectBMP()
 		wstring ID;
 		wstring Value;
 
-		wchar_t buf[8];
+		wchar_t buf[_MAX_ITOSTR_BASE10_COUNT];
 		int a = 10;
-		_itow_s(IMAGE_FILETYPE_PARAMNUM, buf, 8, 10);
+		_itow_s(IMAGE_FILETYPE_PARAMNUM, buf, 10);
 		ID.append(buf);
-		_itow_s(BMP_FILE_SELECTION, buf, 8, 10);
+		_itow_s(BMP_FILE_SELECTION, buf, 10);
 		Value.append(buf);
 		SC->cmdSetParametersEx(SelectedScannerID, ID, Value, 0, &status);
 		LOG(status, "SET_PARAMETERS_IMAGE_BMP");

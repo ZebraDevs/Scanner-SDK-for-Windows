@@ -205,23 +205,23 @@ void CIntelDocCap::SetAsync(int *ParaA)
 void CIntelDocCap::OnCbnSelchangeComboIdcParam()
 {
 	CHECK_CMD0;
-	m_edit_DocCapConfValue.SetWindowText(RSMGet((int)m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel())).c_str()); 
+	m_edit_DocCapConfValue.SetWindowText(RSMGet(static_cast<int>(m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel()))).c_str());
 }
 
 void CIntelDocCap::OnBnClickedButtonIdcParamGet()
 {
 	CHECK_CMD0;
-	m_edit_DocCapConfValue.SetWindowText(RSMGet((int)m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel())).c_str()); 
+	m_edit_DocCapConfValue.SetWindowText(RSMGet(static_cast<int>(m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel()))).c_str());
 }
 
 std::wstring CIntelDocCap::RSMGet(int opcode)
 {
-	DWORD_PTR dpOpCode =  m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel());
-	wchar_t a[5];
+	int opCode = static_cast<int>(m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel()));
+	wchar_t a[_MAX_ITOSTR_BASE10_COUNT];
 	long status = 1;
 	CComBSTR outXml(L"");
 	//enable the secure methode '_itow_s' resolve the unsafe functions
-	_itow_s((int)dpOpCode, a, 10);
+	_itow_s(opCode, a, 10);
 	if ( !SC->cmdGet(SelectedScannerID,a, &outXml, Async, &status) )
 	{
 		if ( !Async )
@@ -264,19 +264,19 @@ std::wstring CIntelDocCap::RSMGet(int opcode)
 void CIntelDocCap::OnBnClickedButtonIdcParamSet()
 {
 	CHECK_CMD0;
-	DWORD_PTR dpOpCode =  m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel());
+	int opCode = static_cast<int>(m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel()));
 	CString csValue;
 	m_edit_DocCapConfValue.GetWindowText(csValue);
-	RSMSet((int)dpOpCode, csValue.GetBuffer(), wsSelectedDataType);
+	RSMSet(opCode, csValue.GetBuffer(), wsSelectedDataType);
 }
 
 void CIntelDocCap::OnBnClickedButtonIdcParamStore()
 {
 	CHECK_CMD0;
-	DWORD_PTR dpOpCode =  m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel());
+	int opCode = static_cast<int>(m_cmbDocCapConf.GetItemData(m_cmbDocCapConf.GetCurSel()));
 	CString csValue;
 	m_edit_DocCapConfValue.GetWindowText(csValue);
-	RSMSet((int)dpOpCode, csValue.GetBuffer(), wsSelectedDataType, true);
+	RSMSet(opCode, csValue.GetBuffer(), wsSelectedDataType, true);
 }
 
 int CIntelDocCap::RSMSet(int attribID, std::wstring value, wstring dataType, bool isStore)
@@ -286,7 +286,7 @@ int CIntelDocCap::RSMSet(int attribID, std::wstring value, wstring dataType, boo
 	
 	LONG status = -1;
 
-	wchar_t buff[10];
+	wchar_t buff[_MAX_ITOSTR_BASE10_COUNT];
 	//enable the secure methode '_itow_s' resolve the unsafe functions
 	_itow_s(attribID, buff, 10);
 	CString AttribID = buff;
